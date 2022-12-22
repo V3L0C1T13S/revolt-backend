@@ -1,4 +1,4 @@
-use crate::models::emoji::EmojiParent;
+use crate::models::emoji::{EmojiParent, PartialEmoji};
 use crate::models::Emoji;
 use crate::{AbstractEmoji, Result};
 
@@ -31,6 +31,11 @@ impl AbstractEmoji for DummyDb {
     /// Insert emoji into database.
     async fn insert_emoji(&self, emoji: &Emoji) -> Result<()> {
         info!("Insert {emoji:?}");
+        Ok(())
+    }
+
+    async fn update_emoji(&self, emoji: &PartialEmoji) -> Result<()> {
+        info!("Update with data :{emoji:?}");
         Ok(())
     }
 

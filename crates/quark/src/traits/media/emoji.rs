@@ -1,3 +1,4 @@
+use crate::models::emoji::PartialEmoji;
 use crate::models::Emoji;
 use crate::Result;
 
@@ -14,6 +15,9 @@ pub trait AbstractEmoji: Sync + Send {
 
     /// Insert emoji into database.
     async fn insert_emoji(&self, emoji: &Emoji) -> Result<()>;
+
+    // Edit emoji
+    async fn update_emoji(&self, emoji: &PartialEmoji) -> Result<()>;
 
     /// Detach an emoji by its id
     async fn detach_emoji(&self, emoji: &Emoji) -> Result<()>;

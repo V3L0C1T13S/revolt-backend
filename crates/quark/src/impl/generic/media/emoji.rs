@@ -4,7 +4,10 @@ use ulid::Ulid;
 
 use crate::{
     events::client::EventV1,
-    models::{emoji::EmojiParent, Emoji},
+    models::{
+        emoji::{EmojiParent, PartialEmoji},
+        Emoji,
+    },
     Database, Result,
 };
 
@@ -29,6 +32,15 @@ impl Emoji {
     pub async fn create(&self, db: &Database) -> Result<()> {
         db.insert_emoji(self).await?;
         EventV1::EmojiCreate(self.clone())
+            .p(self.parent().to_string())
+            .await;
+
+        Ok(())
+    }
+
+    pub async fn update_emoji(self, db: &Database, emoji: &PartialEmoji) -> Result<()> {
+        db.update_emoji(emoji).await?;
+        EventV1::EmojiUpdate(emoji.clone())
             .p(self.parent().to_string())
             .await;
 

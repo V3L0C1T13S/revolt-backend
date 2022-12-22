@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::models::channel::{FieldsChannel, PartialChannel};
+use crate::models::emoji::PartialEmoji;
 use crate::models::message::{AppendMessage, PartialMessage};
 use crate::models::server::{FieldsRole, FieldsServer, PartialRole, PartialServer};
 use crate::models::server_member::{FieldsMember, MemberCompositeKey, PartialMember};
@@ -41,7 +42,9 @@ pub enum ErrorEvent {
 #[serde(tag = "type")]
 pub enum EventV1 {
     /// Multiple events
-    Bulk { v: Vec<EventV1> },
+    Bulk {
+        v: Vec<EventV1>,
+    },
 
     /// Successfully authenticated
     Authenticated,
@@ -56,7 +59,9 @@ pub enum EventV1 {
     },
 
     /// Ping response
-    Pong { data: Ping },
+    Pong {
+        data: Ping,
+    },
 
     /// New message
     Message(Message),
@@ -76,7 +81,10 @@ pub enum EventV1 {
     },
 
     /// Delete message
-    MessageDelete { id: String, channel: String },
+    MessageDelete {
+        id: String,
+        channel: String,
+    },
 
     /// New reaction to a message
     MessageReact {
@@ -102,7 +110,10 @@ pub enum EventV1 {
     },
 
     /// Bulk delete messages
-    BulkMessageDelete { channel: String, ids: Vec<String> },
+    BulkMessageDelete {
+        channel: String,
+        ids: Vec<String>,
+    },
 
     /// New channel
     ChannelCreate(Channel),
@@ -115,19 +126,33 @@ pub enum EventV1 {
     },
 
     /// Delete channel
-    ChannelDelete { id: String },
+    ChannelDelete {
+        id: String,
+    },
 
     /// User joins a group
-    ChannelGroupJoin { id: String, user: String },
+    ChannelGroupJoin {
+        id: String,
+        user: String,
+    },
 
     /// User leaves a group
-    ChannelGroupLeave { id: String, user: String },
+    ChannelGroupLeave {
+        id: String,
+        user: String,
+    },
 
     /// User started typing in a channel
-    ChannelStartTyping { id: String, user: String },
+    ChannelStartTyping {
+        id: String,
+        user: String,
+    },
 
     /// User stopped typing in a channel
-    ChannelStopTyping { id: String, user: String },
+    ChannelStopTyping {
+        id: String,
+        user: String,
+    },
 
     /// User acknowledged message in channel
     ChannelAck {
@@ -151,7 +176,9 @@ pub enum EventV1 {
     },
 
     /// Delete server
-    ServerDelete { id: String },
+    ServerDelete {
+        id: String,
+    },
 
     /// Update existing server member
     ServerMemberUpdate {
@@ -161,10 +188,16 @@ pub enum EventV1 {
     },
 
     /// User joins server
-    ServerMemberJoin { id: String, user: String },
+    ServerMemberJoin {
+        id: String,
+        user: String,
+    },
 
     /// User left server
-    ServerMemberLeave { id: String, user: String },
+    ServerMemberLeave {
+        id: String,
+        user: String,
+    },
 
     /// Server role created or updated
     ServerRoleUpdate {
@@ -175,7 +208,10 @@ pub enum EventV1 {
     },
 
     /// Server role deleted
-    ServerRoleDelete { id: String, role_id: String },
+    ServerRoleDelete {
+        id: String,
+        role_id: String,
+    },
 
     /// Update existing user
     UserUpdate {
@@ -193,11 +229,18 @@ pub enum EventV1 {
     },
 
     /// Settings updated remotely
-    UserSettingsUpdate { id: String, update: UserSettings },
+    UserSettingsUpdate {
+        id: String,
+        update: UserSettings,
+    },
 
     /// New emoji
     EmojiCreate(Emoji),
 
+    EmojiUpdate(PartialEmoji),
+
     /// Delete emoji
-    EmojiDelete { id: String },
+    EmojiDelete {
+        id: String,
+    },
 }

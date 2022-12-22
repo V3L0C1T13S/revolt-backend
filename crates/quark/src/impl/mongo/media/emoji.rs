@@ -1,5 +1,6 @@
 use bson::Document;
 
+use crate::models::emoji::PartialEmoji;
 use crate::models::Emoji;
 use crate::{AbstractEmoji, Error, Result};
 
@@ -41,6 +42,27 @@ impl AbstractEmoji for MongoDb {
     /// Insert emoji into database.
     async fn insert_emoji(&self, emoji: &Emoji) -> Result<()> {
         self.insert_one(COL, emoji).await.map(|_| ())
+    }
+
+    async fn update_emoji(&self, emoji: &PartialEmoji) -> Result<()> {
+        self.col::<Document>(COL)
+            .update_one(
+                doc! {
+                    "_id": &emoji.id
+                },
+                doc! {
+                    "$set": {
+                        "name": &emoji.name
+                    }
+                },
+                None,
+            )
+            .await
+            .map(|_| ())
+            .map_err(|_| Error::DatabaseError {
+                operation: "update_one",
+                with: "emojis",
+            })
     }
 
     /// Delete an emoji by its id

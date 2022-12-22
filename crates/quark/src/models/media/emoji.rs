@@ -32,3 +32,10 @@ pub struct Emoji {
     #[serde(skip_serializing_if = "if_false", default)]
     pub nsfw: bool,
 }
+
+#[derive(Serialize, Deserialize, JsonSchema, Debug, Clone)]
+pub struct PartialEmoji {
+    #[serde(rename = "_id")]
+    pub id: String,
+    pub name: String,
+}
