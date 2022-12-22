@@ -8,6 +8,7 @@ mod edit_user;
 mod fetch_dms;
 mod fetch_profile;
 mod fetch_self;
+mod fetch_self_profile;
 mod fetch_user;
 mod find_mutual;
 mod get_default_avatar;
@@ -25,6 +26,7 @@ pub fn routes() -> (Vec<Route>, OpenApi) {
         change_username::req,
         get_default_avatar::req,
         fetch_profile::req,
+        fetch_self_profile::req,
         // Direct Messaging
         fetch_dms::req,
         open_dm::req,
